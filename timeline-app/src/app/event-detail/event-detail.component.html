@@ -1,0 +1,22 @@
+<ng-container
+  *ngIf="event.type === 'News'; then newsDetail; else transactionDetail">
+</ng-container>
+
+<ng-template  #newsDetail>
+  <div class="event__item">{{event.header}}</div>
+  <div class="event__item">{{event.description}}</div>
+  <div class="event__item">{{event.date}}</div>
+  <button type="button" class="btn btn-default" (click)="viewed(event);">Я ознакомился</button>
+</ng-template>
+
+<ng-template  #transactionDetail>
+  <div class="event__item">{{event.amount}}</div>
+  <div class="event__item">{{event.value}}</div>
+  <div class="event__item">{{event.person}}</div>
+  <div class="event__item">{{event.description}}</div>
+  <div class="event__item">{{event.result}}</div>
+  <div class="event__item">{{event.date}}</div>
+  <button type="button" class="btn btn-default" (click)="deleteTransaction(event);">delete Transaction</button>
+</ng-template>
+
+<a class="button" routerLink="/">Back</a>

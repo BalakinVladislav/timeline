@@ -1,0 +1,51 @@
+<div class="events">
+  <select class="form-control" id="type"
+          required
+          [(ngModel)]="dateSort" name="dateSort"
+          (ngModelChange)="SortByDate()"
+          #power="ngModel">
+    <option [value]="'desc'">По убыванию</option>
+    <option [value]="'asc'">По возрастанию</option>
+  </select>
+  <select class="form-control" id="type"
+          required
+          [(ngModel)]="typeFilter" name="dateSort"
+          (ngModelChange)="FilterByType()"
+          #power="ngModel">
+    <option [value]="''">Все</option>
+    <option [value]="'News'">Новости</option>
+    <option [value]="'Transaction'">Транзакции</option>
+  </select>
+  <div
+  class="events__item"
+  [class.green]="event.result === '+' || event.viewed"
+  [class.red]="event.result === '-'"
+  *ngFor="let event of timelineEvents"
+  (click)="showDetails(event.id)">
+    <ng-container
+      *ngIf="event.type === 'News'; then news; else transactions">
+    </ng-container>
+
+    <ng-template  #news>
+      <div class="event__item-header">{{event.header}}</div>
+    </ng-template>
+    <ng-template #transactions>
+      <div class="events__item-result">
+        {{event.result}}
+      </div>
+      <div class="events__item-amount">
+        {{event.amount}}
+      </div>
+      <div class="events__item-value">
+        {{event.value}}
+      </div>
+      <div class="events__item-person">
+        {{event.person}}
+      </div>
+      <div class="events__item-date">
+        {{event.date}}
+      </div>
+    </ng-template>
+  </div>
+</div>
+<a class="button" routerLink="/new">New</a>
