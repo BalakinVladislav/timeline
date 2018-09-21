@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {News} from '../models/news.model';
-import {Transaction} from '../models/transaction.model';
-import {EventsService} from '../services/events.service';
-import {Router} from '@angular/router';
+import { News } from '../models/news.model';
+import { Transaction } from '../models/transaction.model';
+import { EventsService } from '../services/events.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-events',
@@ -11,30 +11,33 @@ import {Router} from '@angular/router';
 })
 export class EventsComponent implements OnInit {
   private timelineEvents: Array<Transaction | News>;
-  private dateSort = 'asc';
-  private typeFilter  = '';
+  public dateSort = 'asc';
+  public typeFilter  = '';
 
   constructor(private service: EventsService, private router: Router) { }
   ngOnInit() {
     this.timelineEvents = this.service.getAll();
   }
 
-  SortByDate() {
-    const _self = this;
-    this.timelineEvents.sort(function (a , b) {
-      const a1 = new Date(b.date);
-      const b1 = new Date(a.date);
-      return (_self.dateSort === 'asc') ? b1.getTime() - a1.getTime() : a1.getTime() - b1.getTime();
+  SortByDate(): void {
+    this.timelineEvents.sort((a , b) => {
+      const firstInSeconds = (new Date(b.date)).getTime();
+      const secondInSeconds = (new Date(a.date)).getTime();
+      return (this.dateSort === 'asc') ?
+        secondInSeconds - firstInSeconds :
+        firstInSeconds - secondInSeconds;
     });
   }
 
-  FilterByType() {
-    if (this.typeFilter === '') {this.timelineEvents = this.service.getAll(); } else {
-      this.timelineEvents = this.service.getAll().filter(i => i.type === this.typeFilter);
+  FilterByType(): void {
+    if (this.typeFilter === '') {
+      this.timelineEvents = this.service.getAll();
+    } else {
+      this.timelineEvents = this.service.getAll().filter(event => event.type === this.typeFilter);
     }
   }
 
-  showDetails(id) {
+  showDetails(id: string): void {
     this.router.navigate(['show', id]);
   }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {EventsService} from '../services/events.service';
-import {Transaction} from '../models/transaction.model';
-import {News} from '../models/news.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EventsService } from '../services/events.service';
+import { Transaction } from '../models/transaction.model';
+import { News } from '../models/news.model';
 
 @Component({
   selector: 'app-event-detail',
@@ -14,21 +14,20 @@ export class EventDetailComponent implements OnInit {
   constructor(private service: EventsService, private currentRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    let id: string = this.currentRoute.snapshot.paramMap.get("id");
-
-    console.log(id);
+    const id: string = this.currentRoute.snapshot.paramMap.get("id");
 
     this.event = this.service.getById(id);
-    console.log(this.event);
+    console.log(this.event)
   }
 
-  deleteTransaction(event) {
+  deleteTransaction(event: News | Transaction): void {
     this.service.deleteEvent(event);
     this.router.navigate(['']);
   }
 
-  viewed(event) {
+  viewed(event: News | Transaction): void {
     this.service.viewNews(event.id);
+    this.router.navigate(['']);
   }
 
 }

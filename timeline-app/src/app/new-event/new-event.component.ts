@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {News} from '../models/news.model';
-import {Transaction} from '../models/transaction.model';
-import {EventsService} from '../services/events.service';
+import { News } from '../models/news.model';
+import { Transaction } from '../models/transaction.model';
+import { EventsService } from '../services/events.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-event',
@@ -9,28 +10,33 @@ import {EventsService} from '../services/events.service';
   styleUrls: ['./new-event.component.sass']
 })
 export class NewEventComponent implements OnInit {
-  constructor(private service: EventsService) { }
+  constructor(private service: EventsService, private router: Router) { }
 
   public timelineEvents;
   type: String = 'News';
-  types = ['Transaction', 'News'];
+  types: Array<string> = ['Transaction', 'News'];
 
   model: any = new News(1, '', '', '', '', false);
 
   submitted = false;
 
+  randomHash(): string { return Math.random().toString(36).substr(2, 9); }
+
   onSubmit() { this.submitted = true; }
 
-  newTransaction() {
-    this.service.addEvent(new Transaction( Math.random().toString(36).substr(2, 9),
-      this.model.amount, this.model.value, this.model.person,
-      this.model.description, this.model.result, this.model.date, 'Transaction'));
+  newTransaction(): void {
+    const transaction = this.model;
+    this.service.addEvent(new Transaction( this.randomHash(),
+      transaction.amount, transaction.value, transaction.person,
+      transaction.description, transaction.result, transaction.date, 'Transaction'));
+    this.router.navigate(['']);
   }
 
-  newNews() {
-    this.service.addEvent(new News(Math.random().toString(36).substr(2, 9),
-         this.model.header, this.model.description, this.model.date, 'News', false));
-    console.log(this.service.timelineEvent);
+  newNews(): void {
+    const news = this.model;
+    this.service.addEvent(new News(this.randomHash(),
+      news.header, news.description, news.date, 'News', false));
+    this.router.navigate(['']);
   }
 
   ngOnInit(): void {

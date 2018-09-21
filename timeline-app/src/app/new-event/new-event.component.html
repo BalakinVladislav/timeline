@@ -1,8 +1,8 @@
 <div class="container">
   <div [hidden]="submitted">
-    <h1>Hero Form</h1>
-    <div class="form-group">
-      <label for="type">Hero Power</label>
+    <h1>Event Form</h1>
+    <div class="typeSelect">
+      <label for="type">Event Type</label>
       <select class="form-control" id="type"
               required
               [(ngModel)]="type" name="type"
@@ -11,81 +11,81 @@
       </select>
     </div>
 
-    <ng-container
-      *ngIf="type === 'News'; then newsForm; else transactionForm">
-    </ng-container>
+    <div [ngSwitch]="type" class="eventForm">
+      <div  *ngSwitchCase="'News'">
+        <form (ngSubmit)="onSubmit()">
+          <div class="newsInput">
+            <label for="header">Header</label>
+            <input type="text" class="form-control" id="header"
+                   required
+                   [(ngModel)]="model.header" name="header"
+                   #header="ngModel">
+          </div>
 
-    <ng-template  #newsForm>
-      <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
-        <div class="form-group">
-          <label for="header">Header</label>
-          <input type="text" class="form-control" id="header"
-                 required
-                 [(ngModel)]="model.header" name="header"
-                 #header="ngModel">
-        </div>
+          <div class="newsInput">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description"
+                   [(ngModel)]="model.description" name="description">
+          </div>
 
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" class="form-control" id="description"
-                 [(ngModel)]="model.description" name="description">
-        </div>
+          <div class="newsInput">
+            <label for="date">Date</label>
+            <input type="date" class="form-control" id="date"
+                   [(ngModel)]="model.date" name="date">
+          </div>
 
-        <div class="form-group">
-          <label for="date">Date</label>
-          <input type="date" class="form-control" id="date"
-                 [(ngModel)]="model.date" name="date">
-        </div>
+          <!--<button type="submit" class="btn btn-success" [disabled]="!newNews.form.valid">Submit</button>-->
+          <button type="button" class="button" (click)="newNews();">Create event</button>
+        </form>
+      </div>
 
-        <!--<button type="submit" class="btn btn-success" [disabled]="!newNews.form.valid">Submit</button>-->
-        <button type="button" class="btn btn-default" (click)="newNews();">New Hero</button>
-      </form>
-    </ng-template>
+      <div  *ngSwitchCase="'Transaction'">
+        <form (ngSubmit)="onSubmit()">
+          <div class="transactionInput">
+            <label for="amount">amount</label>
+            <input type="text" id="amount"
+                   required
+                   [(ngModel)]="model.amount" name="amount"
+                   #header="ngModel">
+          </div>
 
-    <ng-template  #transactionForm>
-      <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
-        <div class="form-group">
-          <label for="amount">amount</label>
-          <input type="text" class="form-control" id="amount"
-                 required
-                 [(ngModel)]="model.amount" name="amount"
-                 #header="ngModel">
-        </div>
+          <div class="transactionInput">
+            <label for="value">value</label>
+            <input type="text" id="value"
+                   [(ngModel)]="model.value" name="value">
+          </div>
 
-        <div class="form-group">
-          <label for="value">value</label>
-          <input type="text" class="form-control" id="value"
-                 [(ngModel)]="model.value" name="value">
-        </div>
+          <div class="transactionInput">
+            <label for="person">person</label>
+            <input type="text" class="form-control" id="person"
+                   [(ngModel)]="model.person" name="person">
+          </div>
 
-        <div class="form-group">
-          <label for="person">person</label>
-          <input type="text" class="form-control" id="person"
-                 [(ngModel)]="model.person" name="person">
-        </div>
+          <div class="transactionInput">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description"
+                   [(ngModel)]="model.description" name="description">
+          </div>
 
-        <div class="form-group">
-          <label for="description">Description</label>
-          <input type="text" class="form-control" id="description"
-                 [(ngModel)]="model.description" name="description">
-        </div>
+          <div class="transactionInput">
+            <label for="result">result</label>
+            <select id="result"
+                    [(ngModel)]="model.result"
+                    name="result">
+              <option [value]="'-'">Расход</option>
+              <option [value]="'+'">Приход</option>
+            </select>
+          </div>
 
-        <div class="form-group">
-          <label for="result">result</label>
-          <input type="text" class="form-control" id="result"
-                 [(ngModel)]="model.result" name="result">
-        </div>
+          <div class="transactionInput">
+            <label for="date">Date</label>
+            <input type="date" class="form-control" id="date"
+                   [(ngModel)]="model.date" name="date">
+          </div>
 
-        <div class="form-group">
-          <label for="date">Date</label>
-          <input type="text" class="form-control" id="date"
-                 [(ngModel)]="model.date" name="date">
-        </div>
-
-        <!--<button type="submit" class="btn btn-success" [disabled]="!newNews.form.valid">Submit</button>-->
-        <button type="button" class="btn btn-default" (click)="newTransaction();">New Transaction</button>
-      </form>
-    </ng-template>
+          <button type="button btn-long-text" class="button" (click)="newTransaction();">Create event</button>
+        </form>
+      </div>
     </div>
 
   <a class="button" routerLink="/">Back</a>

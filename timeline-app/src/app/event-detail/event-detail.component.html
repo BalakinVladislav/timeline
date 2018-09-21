@@ -1,22 +1,30 @@
-<ng-container
-  *ngIf="event.type === 'News'; then newsDetail; else transactionDetail">
-</ng-container>
+<div class="event" [ngSwitch]="event.type">
+  <div  class="event__item" *ngSwitchCase="'News'">
+    <div class="event__item-header">Заголовок</div>
+    <div class="event__item-name">{{event.header}}</div>
+    <div class="event__item-header">Описание</div>
+    <div class="event__item-description">{{event.description}}</div>
+    <div class="event__item-header">Дата</div>
+    <div class="event__item-date">{{event.date}}</div>
+    <button type="button" class="button" (click)="viewed(event);">Ознакомился</button>
+    <a class="button" routerLink="/">Back</a>
+  </div>
 
-<ng-template  #newsDetail>
-  <div class="event__item">{{event.header}}</div>
-  <div class="event__item">{{event.description}}</div>
-  <div class="event__item">{{event.date}}</div>
-  <button type="button" class="btn btn-default" (click)="viewed(event);">Я ознакомился</button>
-</ng-template>
+  <div  class="event__item" *ngSwitchCase="'Transaction'">
+    <div class="event__item-header">Сумма</div>
+    <div class="event__item-amount">{{event.amount}}</div>
+    <div class="event__item-header">Валюта</div>
+    <div class="event__item-value">{{event.value}}</div>
+    <div class="event__item-header">От кого/кому</div>
+    <div class="event__item-person">{{event.person}}</div>
+    <div class="event__item-header">Описание</div>
+    <div class="event__item-description">{{event.description}}</div>
+    <div class="event__item-header">Приход/Расход</div>
+    <div class="event__item-result">{{event.result}}</div>
+    <div class="event__item-header">Дата</div>
+    <div class="event__item-date">{{event.date}}</div>
+    <button type="button" class="button" (click)="deleteTransaction(event);">delete</button>
+    <a class="button" routerLink="/">Back</a>
+  </div>
+</div>
 
-<ng-template  #transactionDetail>
-  <div class="event__item">{{event.amount}}</div>
-  <div class="event__item">{{event.value}}</div>
-  <div class="event__item">{{event.person}}</div>
-  <div class="event__item">{{event.description}}</div>
-  <div class="event__item">{{event.result}}</div>
-  <div class="event__item">{{event.date}}</div>
-  <button type="button" class="btn btn-default" (click)="deleteTransaction(event);">delete Transaction</button>
-</ng-template>
-
-<a class="button" routerLink="/">Back</a>

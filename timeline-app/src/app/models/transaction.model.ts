@@ -1,5 +1,5 @@
 export class Transaction {
-  id: number;
+  id: string;
   amount: string;
   value: string;
   person: string;

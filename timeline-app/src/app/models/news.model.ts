@@ -1,5 +1,5 @@
 export class News {
-  id: number;
+  id: string;
   header: string;
   description: string;
   date: string;
